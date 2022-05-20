@@ -18,15 +18,18 @@ struct Evento{
   String nomeUsuario;
 };
 
+// os enderecos 0-3 do EEPROM guardam o numero de usuarios cadastrados
+// os enderecos 4-7 guardam o endereco do ultimo usuario salvo
+// apartir do endereco 8 guarda os structs
 // armazena o endereco do EEPROM a ser salvo
-int usuarioAddress = 5;
-int eventoAddress = int(EEPROM_SIZE/2) + 5;
+int usuarioAddress = 8;
+int eventoAddress = int(EEPROM_SIZE/2) + 8;
 // armazena o endereco do EEPROM a ser lido
-int userAddress = 5;
-int eventAddress = int(EEPROM_SIZE/2) + 5;
+int userAddress = 8;
+int eventAddress = int(EEPROM_SIZE/2) + 8;
 // armazena quantos usuarios e eventos foram salvos
-int usuariosCadastrados;
-int eventosCadastrados;
+int usuariosCadastrados = 0;
+int eventosCadastrados = 0;
 
 // salva quando as portas foram abertas
 long tempoPorta1;
@@ -48,7 +51,8 @@ Evento evento;
 
 
 void setup(){
-  Serial.begin(9600);
+  Serial.begin(115200);
+  Serial.println('-');
   EEPROM.begin(EEPROM_SIZE);
 
   pinMode(btn1, INPUT);
@@ -216,7 +220,7 @@ void cadastrarNovoUsuario(){
 void listarUsuarios(){
   Serial.println("###nome dos usuarios###");
   
-  userAddress = 5;
+  userAddress = 8;
   Serial.println("lendo usuarios...");
   Usuario user;
   for(int i = 0; i < usuariosCadastrados; i++){
@@ -339,44 +343,30 @@ void liberarPorta2(){
 
 void salvarUsuario(Usuario usuario){
   usuariosCadastrados++;
-  
-  Serial.println("salvando...");
-  Serial.print("nome: ");
-  Serial.println(usuario.nome);
-  Serial.print("senha: ");
-  Serial.println(usuario.senha);
-  Serial.print("admin: ");
-  Serial.println(usuario.admin);
 
   EEPROM.put(0, usuariosCadastrados);
-  EEPROM.put(usuarioAddress, usuario);  // salva o nome no endereco 0
-  EEPROM.commit();
-
+  EEPROM.put(usuarioAddress, usuario);
   usuarioAddress += sizeof(usuario);
+  EEPROM.put(4, usuarioAddress);
+  EEPROM.commit();
 }
 
 
 void salvarEvento(Evento evento){
   eventosCadastrados++;
-  
-  Serial.println("salvando...");
-  Serial.print("evento: ");
-  Serial.println(evento.porta);
-  Serial.print("nome: ");
-  Serial.println(evento.nomeUsuario);
 
   EEPROM.put(int(EEPROM_SIZE/2), eventosCadastrados);
-  EEPROM.put(eventoAddress, evento);  // salva o nome no endereco 0
-  EEPROM.commit();
-
+  EEPROM.put(eventoAddress, evento);
   eventoAddress += sizeof(evento);
+  EEPROM.put(int(EEPROM_SIZE/2) + 4, eventoAddress);
+  EEPROM.commit();
 }
 
 
 void printUsuarios(){  
   Serial.println("lendo usuarios...");
   Usuario user;
-  userAddress = 5;
+  userAddress = 8;
   for(int i = 0; i < usuariosCadastrados; i++){
     EEPROM.get(userAddress, user);
 
@@ -396,7 +386,7 @@ void printUsuarios(){
 void printEventos(){
   Serial.println("lendo eventos...");
   Evento event;
-  eventAddress = 5;
+  eventAddress = int(EEPROM_SIZE/2) + 8;
   for(int i = 0; i < eventosCadastrados; i++){
     EEPROM.get(eventAddress, event);
 
@@ -413,7 +403,16 @@ void printEventos(){
 
 void carregar(){
   EEPROM.get(0, usuariosCadastrados);
+  EEPROM.get(4, usuarioAddress);
+  if(usuarioAddress == 0){  // caso a memoria flash for resetada
+    usuarioAddress = 8;
+  }
+  
   EEPROM.get(int(EEPROM_SIZE/2), eventosCadastrados);
+  EEPROM.get(int(EEPROM_SIZE/2) + 4, eventoAddress);
+  if(eventoAddress == 0){  // caso a memoria flash for resetada
+    eventoAddress = int(EEPROM_SIZE/2) + 8;
+  }
 }
 
 
