@@ -1,7 +1,7 @@
-#define porta1 1
-#define porta2 2
-#define btn1 3
-#define btn2 4
+#define btn1 D0
+#define btn2 D2
+#define porta1 D4
+#define porta2 D5
 
 // salva quando as portas foram abertas
 long tempoPorta1;
@@ -15,7 +15,7 @@ int selecionado;
 // armazena em qual estagio da funcao esta (estagio 2 -> segunda vez rodada)
 int estagio;
 // entrada quando não for int
-String entrada
+String entrada;
 // dados do usuario
 String nome;
 String senha;
@@ -33,7 +33,7 @@ void loop(){
   fecharPorta1();
   fecharPorta2();
   
-  if(Serial.available > 0){
+  if(Serial.available() > 0){
     if(estagio == 0)
       selecionado = Serial.parseInt();
     else
@@ -63,8 +63,19 @@ void loop(){
 }
 
 
+void printMenu(){
+  Serial.println(F("-----------------------------------------------"));
+  Serial.println(F("Cadastro do usuário [1]"));
+  Serial.println(F("Listagem dos nomes dos usuários cadastrados [2]"));
+  Serial.println(F("Listagem dos eventos [3]"));
+  Serial.println(F("Liberação da porta 1 [4]"));
+  Serial.println(F("Liberação da porta 2 [5]"));
+  Serial.println(F("-----------------------------------------------"));
+}
+
+
 void fecharPorta1(){
-  if(!estadoPorta1(){
+  if(!estadoPorta1){
     return;
   }
 
@@ -78,7 +89,7 @@ void fecharPorta1(){
 
 
 void fecharPorta2(){
-  if(!estadoPorta2(){
+  if(!estadoPorta2){
     return;
   }
 
@@ -104,11 +115,11 @@ void cadastrarNovoUsuario(){
       break;
     case 3:
       senha = entrada;
-      Serial.println(F"Administrador? [0]-nao [1]-sim"));
+      Serial.println(F("Administrador? [0]-nao [1]-sim"));
       break;
     case 4:
-      if entrada == "1"
-        admin = true
+      if(entrada == "1")
+        admin = true;
       void salvar();
       Serial.println(F("Usuário cadastrado!"));
       printMenu();
@@ -130,7 +141,7 @@ void listarEventos(){
 
   switch(estagio){
     case 1:
-      Serial.println(F("Insira a senha do usuário administrador:");
+      Serial.println(F("Insira a senha do usuário administrador:"));
       break;
     case 2:
       if(entrada != senha){
