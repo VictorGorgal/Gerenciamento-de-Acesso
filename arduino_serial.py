@@ -1,5 +1,6 @@
 import serial
 from threading import Thread
+from back_end import gerenciamento
 
 
 def ler_serial(node):
