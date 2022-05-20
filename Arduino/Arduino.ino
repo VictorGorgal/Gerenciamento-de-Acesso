@@ -1,7 +1,7 @@
 #define btn1 D0
 #define btn2 D2
-#define porta1 D4
-#define porta2 D5
+#define porta1 D5
+#define porta2 D8
 
 // salva quando as portas foram abertas
 long tempoPorta1;
@@ -12,8 +12,8 @@ bool estadoPorta2;
 
 // index selecionado
 int selecionado;
-// armazena em qual estagio da funcao esta (estagio 2 -> segunda vez rodada)
-int estagio;
+// armazena em qual etapa da funcao esta (etapa = 2 -> segunda vez rodada)
+int etapa;
 // entrada quando não for int
 String entrada;
 // dados do usuario
@@ -25,6 +25,14 @@ bool admin;
 void setup(){
   Serial.begin(9600);
 
+  pinMode(btn1, INPUT);
+  pinMode(btn2, INPUT);  
+  pinMode(porta1, OUTPUT);
+  pinMode(porta2, OUTPUT);
+
+  digitalWrite(porta1, LOW);
+  digitalWrite(porta2, LOW);
+
   printMenu();
 }
 
@@ -34,10 +42,14 @@ void loop(){
   fecharPorta2();
   
   if(Serial.available() > 0){
-    if(estagio == 0)
+    if(etapa == 0){
       selecionado = Serial.parseInt();
-    else
-      entrada = Serial.read();
+
+      Serial.read();  // limpa o buffer serial
+    }else{
+      entrada = Serial.readString();
+      entrada.trim();  // remove espacos desnecessarios (" ", "\n"...)
+    }
 
     // roda a funcao de acordo com a opcao selecionada
     switch(selecionado){
@@ -75,15 +87,18 @@ void printMenu(){
 
 
 void fecharPorta1(){
-  if(!estadoPorta1){
+  if(!estadoPorta1){  // caso a porta esteja fechada, sair da funcao para nao fecha-la novamente
     return;
   }
 
   if(millis() - tempoPorta1 >= 5000){
+    Serial.println(F("O tempo da porta 1 excedeu 5 segundos, fechando..."));
     digitalWrite(porta1, LOW);
+    estadoPorta1 = false;
   }
-  if(digitalRead(btn1)){
+  if(digitalRead(btn1) == 1){
     digitalWrite(porta1, LOW);
+    estadoPorta1 = false;
   }
 }
 
@@ -94,18 +109,21 @@ void fecharPorta2(){
   }
 
   if(millis() - tempoPorta2 >= 5000){
+    Serial.println(F("O tempo da porta 2 excedeu 5 segundos, fechando..."));
     digitalWrite(porta2, LOW);
+    estadoPorta2 = false;
   }
   if(digitalRead(btn2)){
     digitalWrite(porta2, LOW);
+    estadoPorta2 = false;
   }
 }
 
 
 void cadastrarNovoUsuario(){
-  estagio++;
+  etapa++;
 
-  switch(estagio){
+  switch(etapa){
     case 1:
       Serial.println(F("Insira o nome de usuário:"));
       break;
@@ -123,7 +141,7 @@ void cadastrarNovoUsuario(){
       void salvar();
       Serial.println(F("Usuário cadastrado!"));
       printMenu();
-      estagio = 0;
+      etapa = 0;
       break;
   }
 }
@@ -131,28 +149,33 @@ void cadastrarNovoUsuario(){
 
 void listarUsuarios(){
   Serial.println(F("###nome dos usuarios###"));
+  
+  Serial.println(nome);
+  Serial.println(senha);
+  Serial.print(F("Administrador: "));
+  Serial.println(admin);
 
   printMenu();
 }
 
 
 void listarEventos(){
-  estagio++;
+  etapa++;
 
-  switch(estagio){
+  switch(etapa){
     case 1:
       Serial.println(F("Insira a senha do usuário administrador:"));
       break;
     case 2:
       if(entrada != senha){
         Serial.println(F("Senha errada"));
-        estagio = 0;
+        etapa = 0;
         printMenu();
         break;
       }
       if(!admin){
         Serial.println(F("Usuario deve ser administrador!"));
-        estagio = 0;
+        etapa = 0;
         printMenu();
         break;
       }
@@ -160,7 +183,7 @@ void listarEventos(){
       Serial.println(F("### dados do usuario ###"));
       Serial.println(F("### indentificacao da porta que foi aberta ###"));
 
-      estagio = 0;
+      etapa = 0;
       printMenu();
       break;
   }
@@ -168,16 +191,16 @@ void listarEventos(){
 
 
 void liberarPorta1(){
-  estagio++;
+  etapa++;
 
-  switch(estagio){
+  switch(etapa){
     case 1:
       Serial.println(F("Insira a senha de usuário"));
       break;
     case 2:
       if(senha != entrada){
         Serial.println(F("Senha incorreta"));
-        estagio = 0;
+        etapa = 0;
         printMenu();
         break;
       }
@@ -185,7 +208,7 @@ void liberarPorta1(){
       digitalWrite(porta1, HIGH);
       tempoPorta1 = millis();
       estadoPorta1 = true;
-      estagio = 0;
+      etapa = 0;
       printMenu();
       break;
   }
@@ -193,16 +216,16 @@ void liberarPorta1(){
 
 
 void liberarPorta2(){
-  estagio++;
+  etapa++;
 
-  switch(estagio){
+  switch(etapa){
     case 1:
       Serial.println(F("Insira a senha de usuário"));
       break;
     case 2:
       if(senha != entrada){
         Serial.println(F("Senha incorreta"));
-        estagio = 0;
+        etapa = 0;
         printMenu();
         break;
       }
@@ -210,7 +233,7 @@ void liberarPorta2(){
       digitalWrite(porta2, HIGH);
       tempoPorta2 = millis();
       estadoPorta2 = true;
-      estagio = 0;
+      etapa = 0;
       printMenu();
       break;
   }
