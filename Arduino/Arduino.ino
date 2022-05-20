@@ -44,7 +44,6 @@ void loop(){
   if(Serial.available() > 0){
     if(etapa == 0){
       selecionado = Serial.parseInt();
-
       Serial.read();  // limpa o buffer serial
     }else{
       entrada = Serial.readString();
@@ -67,8 +66,6 @@ void loop(){
         break;
       case 5:
         liberarPorta2();
-        break;
-      default:
         break;
     }
   }
@@ -127,14 +124,17 @@ void cadastrarNovoUsuario(){
     case 1:
       Serial.println(F("Insira o nome de usuário:"));
       break;
+      
     case 2:
       nome = entrada;
       Serial.println(F("Insira a senha de usuário:"));
       break;
+      
     case 3:
       senha = entrada;
       Serial.println(F("Administrador? [0]-nao [1]-sim"));
       break;
+      
     case 4:
       if(entrada == "1")
         admin = true;
@@ -166,13 +166,15 @@ void listarEventos(){
     case 1:
       Serial.println(F("Insira a senha do usuário administrador:"));
       break;
+      
     case 2:
       if(entrada != senha){
-        Serial.println(F("Senha errada"));
+        Serial.println(F("Senha errada!"));
         etapa = 0;
         printMenu();
         break;
       }
+      
       if(!admin){
         Serial.println(F("Usuario deve ser administrador!"));
         etapa = 0;
@@ -182,7 +184,6 @@ void listarEventos(){
 
       Serial.println(F("### dados do usuario ###"));
       Serial.println(F("### indentificacao da porta que foi aberta ###"));
-
       etapa = 0;
       printMenu();
       break;
@@ -197,6 +198,7 @@ void liberarPorta1(){
     case 1:
       Serial.println(F("Insira a senha de usuário"));
       break;
+      
     case 2:
       if(senha != entrada){
         Serial.println(F("Senha incorreta"));
@@ -222,6 +224,7 @@ void liberarPorta2(){
     case 1:
       Serial.println(F("Insira a senha de usuário"));
       break;
+      
     case 2:
       if(senha != entrada){
         Serial.println(F("Senha incorreta"));
