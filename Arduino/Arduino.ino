@@ -83,6 +83,16 @@ void printMenu(){
 }
 
 
+bool checarUsuario(){
+  if(senha == ""){
+    Serial.println(F("Nenhum usuário cadastrado!"));
+    printMenu();
+    return false;
+  }
+  return true;
+}
+
+
 void fecharPorta1(){
   if(!estadoPorta1){  // caso a porta esteja fechada, sair da funcao para nao fecha-la novamente
     return;
@@ -126,16 +136,29 @@ void cadastrarNovoUsuario(){
       break;
       
     case 2:
+      if(entrada == ""){
+        Serial.println(F("Insira um nome com pelo menos 1 caracter!"));
+        etapa = 0;
+        printMenu();
+        return;
+      }
       nome = entrada;
       Serial.println(F("Insira a senha de usuário:"));
       break;
       
     case 3:
+      if(entrada == ""){
+        Serial.println(F("Insira uma senha com pelo menos 1 caracter!"));
+        etapa = 0;
+        printMenu();
+        return;
+      }
       senha = entrada;
       Serial.println(F("Administrador? [0]-nao [1]-sim"));
       break;
       
     case 4:
+      admin = false;
       if(entrada == "1")
         admin = true;
       void salvar();
@@ -151,15 +174,16 @@ void listarUsuarios(){
   Serial.println(F("###nome dos usuarios###"));
   
   Serial.println(nome);
-  Serial.println(senha);
-  Serial.print(F("Administrador: "));
-  Serial.println(admin);
 
   printMenu();
 }
 
 
 void listarEventos(){
+  if(!checarUsuario()){
+    return;
+  }
+  
   etapa++;
 
   switch(etapa){
@@ -192,6 +216,10 @@ void listarEventos(){
 
 
 void liberarPorta1(){
+  if(!checarUsuario()){
+    return;
+  }
+  
   etapa++;
 
   switch(etapa){
@@ -218,6 +246,10 @@ void liberarPorta1(){
 
 
 void liberarPorta2(){
+  if(!checarUsuario()){
+    return;
+  }
+  
   etapa++;
 
   switch(etapa){
