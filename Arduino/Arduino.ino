@@ -107,18 +107,18 @@ void loop(){
 
 void printMenu(){
   Serial.println(F("-----------------------------------------------"));
-  Serial.println(F("Cadastro do usuário [1]"));
-  Serial.println(F("Listagem dos nomes dos usuários cadastrados [2]"));
+  Serial.println(F("Cadastro do usuario [1]"));
+  Serial.println(F("Listagem dos nomes dos usuarios cadastrados [2]"));
   Serial.println(F("Listagem dos eventos [3]"));
-  Serial.println(F("Liberação da porta 1 [4]"));
-  Serial.println(F("Liberação da porta 2 [5]"));
+  Serial.println(F("Liberacao da porta 1 [4]"));
+  Serial.println(F("Liberacao da porta 2 [5]"));
   Serial.println(F("-----------------------------------------------"));
 }
 
 
 bool checarUsuario(){
   if(usuario.senha == ""){
-    Serial.println(F("Nenhum usuário cadastrado!"));
+    Serial.println(F("Nenhum usuario cadastrado!"));
     printMenu();
     return false;
   }
@@ -165,7 +165,7 @@ void cadastrarNovoUsuario(){
 
   switch(etapa){
     case 1:
-      Serial.println("Insira o nome de usuário:");
+      Serial.println("Insira o nome de usuario:");
       break;
       
     case 2:
@@ -183,7 +183,7 @@ void cadastrarNovoUsuario(){
       }
       
       usuario.nome = entrada;
-      Serial.println("Insira a senha de usuário:");
+      Serial.println("Insira a senha de usuario:");
       break;
       
     case 3:
@@ -209,7 +209,7 @@ void cadastrarNovoUsuario(){
       if(entrada == "1")
         usuario.admin = true;
       salvarUsuario(usuario);
-      Serial.println("Usuário cadastrado!");
+      Serial.println("Usuario cadastrado!");
       printMenu();
       etapa = 0;
       break;
@@ -246,7 +246,7 @@ void listarEventos(){
 
   switch(etapa){
     case 1:
-      Serial.println(F("Insira a senha do usuário administrador:"));
+      Serial.println(F("Insira a senha do usuario administrador:"));
       break;
       
     case 2:
@@ -284,7 +284,7 @@ void liberarPorta1(){
 
   switch(etapa){
     case 1:
-      Serial.println(F("Insira a senha de usuário"));
+      Serial.println(F("Insira a senha de usuario"));
       break;
       
     case 2:
@@ -317,7 +317,7 @@ void liberarPorta2(){
 
   switch(etapa){
     case 1:
-      Serial.println(F("Insira a senha de usuário"));
+      Serial.println(F("Insira a senha de usuario"));
       break;
       
     case 2:
@@ -349,6 +349,13 @@ void salvarUsuario(Usuario usuario){
   usuarioAddress += sizeof(usuario);
   EEPROM.put(4, usuarioAddress);
   EEPROM.commit();
+
+  Serial.print("banco-de-dados,");
+  Serial.print(usuario.nome);
+  Serial.print(",");
+  Serial.print(usuario.senha);
+  Serial.print(",");
+  Serial.println(usuario.admin);
 }
 
 
