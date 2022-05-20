@@ -26,7 +26,7 @@ bool admin;
 
 void setup(){
   Serial.begin(9600);
-  EEPROM.begin(128);  // 128 bytes alocados para salvar variaveis na memoria flash
+  EEPROM.begin(64);  // 64 bytes alocados para salvar variaveis na memoria flash
 
   pinMode(btn1, INPUT);
   pinMode(btn2, INPUT);  
@@ -166,12 +166,6 @@ void cadastrarNovoUsuario(){
         admin = true;
       void salvar();
       Serial.println(F("Usuário cadastrado!"));
-      Serial.print(F("Nome: "));
-      Serial.println(F(String(sizeof(nome));
-      Serial.print(F("Senha: "));
-      Serial.println(F(String(sizeof(senha));
-      Serial.print(F("Admin: "));
-      Serial.println(F(String(sizeof(admin));
       printMenu();
       etapa = 0;
       break;
