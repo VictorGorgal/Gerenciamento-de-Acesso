@@ -4,6 +4,29 @@
 #define btn2 D2
 #define porta1 D5
 #define porta2 D8
+// aloca memoria para salvar variaveis na memoria flash
+#define EEPROM_SIZE 1024
+
+struct Usuario{
+  String nome;
+  String senha;
+  bool admin;
+};
+
+struct Evento{
+  bool porta;  // 0 -> porta1 ; 1 -> porta2
+  String nomeUsuario;
+};
+
+// armazena o endereco do EEPROM a ser salvo
+int usuarioAddress = 5;
+int eventoAddress = int(EEPROM_SIZE/2) + 5;
+// armazena o endereco do EEPROM a ser lido
+int userAddress = 5;
+int eventAddress = int(EEPROM_SIZE/2) + 5;
+// armazena quantos usuarios e eventos foram salvos
+int usuariosCadastrados;
+int eventosCadastrados;
 
 // salva quando as portas foram abertas
 long tempoPorta1;
@@ -19,14 +42,14 @@ int etapa;
 // entrada quando não for int
 String entrada;
 // dados do usuario
-String nome;
-String senha;
-bool admin;
+Usuario usuario;
+// dados do evento
+Evento evento;
 
 
 void setup(){
   Serial.begin(9600);
-  EEPROM.begin(64);  // 64 bytes alocados para salvar variaveis na memoria flash
+  EEPROM.begin(EEPROM_SIZE);
 
   pinMode(btn1, INPUT);
   pinMode(btn2, INPUT);  
@@ -36,6 +59,9 @@ void setup(){
   digitalWrite(porta1, LOW);
   digitalWrite(porta2, LOW);
 
+  // limpa a memoria flash
+//  resetEEPROM();
+  carregar();
   printMenu();
 }
 
@@ -87,7 +113,7 @@ void printMenu(){
 
 
 bool checarUsuario(){
-  if(senha == ""){
+  if(usuario.senha == ""){
     Serial.println(F("Nenhum usuário cadastrado!"));
     printMenu();
     return false;
@@ -135,37 +161,51 @@ void cadastrarNovoUsuario(){
 
   switch(etapa){
     case 1:
-      Serial.println(F("Insira o nome de usuário:"));
+      Serial.println("Insira o nome de usuário:");
       break;
       
     case 2:
       if(entrada == ""){
-        Serial.println(F("Insira um nome com pelo menos 1 caracter!"));
+        Serial.println("Insira um nome com pelo menos 1 caracter!");
         etapa = 0;
         printMenu();
         return;
       }
-      nome = entrada;
-      Serial.println(F("Insira a senha de usuário:"));
+      if(entrada.length() > 30){
+        Serial.println("Insira um nome com ate 30 caracteres!");
+        etapa = 0;
+        printMenu();
+        return;
+      }
+      
+      usuario.nome = entrada;
+      Serial.println("Insira a senha de usuário:");
       break;
       
     case 3:
       if(entrada == ""){
-        Serial.println(F("Insira uma senha com pelo menos 1 caracter!"));
+        Serial.println("Insira uma senha com pelo menos 1 caracter!");
         etapa = 0;
         printMenu();
         return;
       }
-      senha = entrada;
-      Serial.println(F("Administrador? [0]-nao [1]-sim"));
+      if(entrada.length() > 30){
+        Serial.println("Insira uma senha com ate 30 caracteres!");
+        etapa = 0;
+        printMenu();
+        return;
+      }
+      
+      usuario.senha = entrada;
+      Serial.println("Administrador? [0]-nao [1]-sim");
       break;
       
     case 4:
-      admin = false;
+      usuario.admin = false;
       if(entrada == "1")
-        admin = true;
-      void salvar();
-      Serial.println(F("Usuário cadastrado!"));
+        usuario.admin = true;
+      salvarUsuario(usuario);
+      Serial.println("Usuário cadastrado!");
       printMenu();
       etapa = 0;
       break;
@@ -174,9 +214,20 @@ void cadastrarNovoUsuario(){
 
 
 void listarUsuarios(){
-  Serial.println(F("###nome dos usuarios###"));
+  Serial.println("###nome dos usuarios###");
   
-  Serial.println(nome);
+  userAddress = 5;
+  Serial.println("lendo usuarios...");
+  Usuario user;
+  for(int i = 0; i < usuariosCadastrados; i++){
+    EEPROM.get(userAddress, user);
+
+    Serial.println("-------------");
+    Serial.print("nome: ");
+    Serial.println(user.nome);
+  
+    userAddress += sizeof(user);
+  }
 
   printMenu();
 }
@@ -195,14 +246,14 @@ void listarEventos(){
       break;
       
     case 2:
-      if(entrada != senha){
+      if(entrada != usuario.senha){
         Serial.println(F("Senha errada!"));
         etapa = 0;
         printMenu();
         break;
       }
       
-      if(!admin){
+      if(!usuario.admin){
         Serial.println(F("Usuario deve ser administrador!"));
         etapa = 0;
         printMenu();
@@ -210,7 +261,9 @@ void listarEventos(){
       }
 
       Serial.println(F("### dados do usuario ###"));
+      printUsuarios();
       Serial.println(F("### indentificacao da porta que foi aberta ###"));
+      printEventos();
       etapa = 0;
       printMenu();
       break;
@@ -231,13 +284,16 @@ void liberarPorta1(){
       break;
       
     case 2:
-      if(senha != entrada){
+      if(usuario.senha != entrada){
         Serial.println(F("Senha incorreta"));
         etapa = 0;
         printMenu();
         break;
       }
 
+      evento.porta = 0;
+      evento.nomeUsuario = usuario.nome;
+      salvarEvento(evento);
       digitalWrite(porta1, HIGH);
       tempoPorta1 = millis();
       estadoPorta1 = true;
@@ -261,13 +317,16 @@ void liberarPorta2(){
       break;
       
     case 2:
-      if(senha != entrada){
+      if(usuario.senha != entrada){
         Serial.println(F("Senha incorreta"));
         etapa = 0;
         printMenu();
         break;
       }
 
+      evento.porta = 1;
+      evento.nomeUsuario = usuario.nome;
+      salvarEvento(evento);
       digitalWrite(porta2, HIGH);
       tempoPorta2 = millis();
       estadoPorta2 = true;
@@ -278,6 +337,89 @@ void liberarPorta2(){
 }
 
 
-void salvar(){
-  Serial.println(F("Salvando..."));
+void salvarUsuario(Usuario usuario){
+  usuariosCadastrados++;
+  
+  Serial.println("salvando...");
+  Serial.print("nome: ");
+  Serial.println(usuario.nome);
+  Serial.print("senha: ");
+  Serial.println(usuario.senha);
+  Serial.print("admin: ");
+  Serial.println(usuario.admin);
+
+  EEPROM.put(0, usuariosCadastrados);
+  EEPROM.put(usuarioAddress, usuario);  // salva o nome no endereco 0
+  EEPROM.commit();
+
+  usuarioAddress += sizeof(usuario);
+}
+
+
+void salvarEvento(Evento evento){
+  eventosCadastrados++;
+  
+  Serial.println("salvando...");
+  Serial.print("evento: ");
+  Serial.println(evento.porta);
+  Serial.print("nome: ");
+  Serial.println(evento.nomeUsuario);
+
+  EEPROM.put(int(EEPROM_SIZE/2), eventosCadastrados);
+  EEPROM.put(eventoAddress, evento);  // salva o nome no endereco 0
+  EEPROM.commit();
+
+  eventoAddress += sizeof(evento);
+}
+
+
+void printUsuarios(){  
+  Serial.println("lendo usuarios...");
+  Usuario user;
+  userAddress = 5;
+  for(int i = 0; i < usuariosCadastrados; i++){
+    EEPROM.get(userAddress, user);
+
+    Serial.println("-------------");
+    Serial.print("nome: ");
+    Serial.println(user.nome);
+    Serial.print("senha: ");
+    Serial.println(user.senha);
+    Serial.print("Admin: ");
+    Serial.println(user.admin);
+  
+    userAddress += sizeof(user);
+  }
+}
+
+
+void printEventos(){
+  Serial.println("lendo eventos...");
+  Evento event;
+  eventAddress = 5;
+  for(int i = 0; i < eventosCadastrados; i++){
+    EEPROM.get(eventAddress, event);
+
+    Serial.println("-------------");
+    Serial.print("porta: ");
+    Serial.println(event.porta);
+    Serial.print("usuario: ");
+    Serial.println(event.nomeUsuario);
+  
+    eventAddress += sizeof(event);
+  }
+}
+
+
+void carregar(){
+  EEPROM.get(0, usuariosCadastrados);
+  EEPROM.get(int(EEPROM_SIZE/2), eventosCadastrados);
+}
+
+
+void resetEEPROM(){
+  for (int i = 0; i < EEPROM_SIZE; i++) {
+    EEPROM.write(i, 0);
+  }
+  EEPROM.commit();
 }
