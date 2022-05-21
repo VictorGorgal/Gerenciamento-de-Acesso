@@ -6,6 +6,9 @@ class readDB:
         self.file = file
 
     def get_usuarios(self):
+        """
+        :return: list[tuple]: lista contendo todos os usuários cadastrados no banco de dados
+        """
         connection = sqlite3.connect(self.file)
         cursor = connection.cursor()
 
@@ -16,6 +19,9 @@ class readDB:
         return rows
 
     def get_eventos(self):
+        """
+        :return: list[tuple]: lista contendo todos os eventos salvos no banco de dados
+        """
         connection = sqlite3.connect(self.file)
         cursor = connection.cursor()
 
@@ -26,6 +32,7 @@ class readDB:
         return rows
 
 
+# Mostrar os conteúdos do banco de dados no terminal:
 if __name__ == '__main__':
     read = readDB('./database.db')
 

@@ -23,31 +23,29 @@ class MainWindow(qtw.QMainWindow, Ui_MainWindow):
         self.btn_database.clicked.connect(self.go_to_database)
         self.serialInput.returnPressed.connect(self.get_text)
 
-    def go_to_serial(self):
+    def go_to_serial(self):  # muda de página
         self.page_widgets.setCurrentWidget(self.serial_page)
         self.highlight_button()
 
-    def go_to_database(self):
+    def go_to_database(self):  # muda de página
         self.page_widgets.setCurrentWidget(self.database_page)
         self.highlight_button()
 
         self.load_tables()
 
-    def get_text(self):
+    def get_text(self):  # envia a linha do EditText para o arduino
         self.serial.enviar_serial(self.serialInput.text())
         self.serialInput.setText('')
 
-    def serial_out(self, entrada):
+    def serial_out(self, entrada):  # mostra a resposta do node no aplicativo
         texto = entrada + '\n' + self.serialOutput.text()
         self.serialOutput.setText(texto)
 
-    def save(self, texto):
-        print(f'Saving: {texto}')
-
-    def load_tables(self):
+    def load_tables(self):  # carrega a informação do banco de dados para o aplicativo
         usuarios = self.readDB.get_usuarios()
         eventos = self.readDB.get_eventos()
-        self.tabelaUsuarios.setRowCount(len(usuarios))
+
+        self.tabelaUsuarios.setRowCount(len(usuarios))  # define quantas linhas as tabelas terão
         self.tabelaEventos.setRowCount(len(eventos))
 
         for i, usuario in enumerate(usuarios):
@@ -61,10 +59,10 @@ class MainWindow(qtw.QMainWindow, Ui_MainWindow):
             self.tabelaEventos.setItem(i, 2, qtw.QTableWidgetItem(evento[2]))
             self.tabelaEventos.setItem(i, 3, qtw.QTableWidgetItem(evento[3]))
 
-        self.tabelaUsuarios.resizeColumnsToContents()
+        self.tabelaUsuarios.resizeColumnsToContents()  # automaticamente redimensiona as colunas
         self.tabelaEventos.resizeColumnsToContents()
 
-    def highlight_button(self):
+    def highlight_button(self):  # muda a cor do botão dependendo da página
         self.btn_serial.setAutoFillBackground(False)
         self.btn_database.setAutoFillBackground(False)
 
@@ -74,7 +72,7 @@ class MainWindow(qtw.QMainWindow, Ui_MainWindow):
         if page == 'database_page':
             self.btn_database.setAutoFillBackground(True)
 
-    def toggleMenu(self, maxWidth):
+    def toggleMenu(self, maxWidth):  # animação do menu lateral
         width = self.slide_menu.width()
         standard = 0  # minimum width
         widthExtended = standard

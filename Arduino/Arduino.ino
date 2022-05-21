@@ -64,6 +64,7 @@ void setup(){
 
   // limpa a memoria flash
 //  resetEEPROM();
+  // carrega da memoria flash para a RAM
   carregar();
   printMenu();
 }
@@ -116,6 +117,7 @@ void printMenu(){
 }
 
 
+// checa se um usuario esta cadastrado
 bool checarUsuario(){
   if(usuario.senha == ""){
     Serial.println(F("Nenhum usuario cadastrado!"));
@@ -126,6 +128,7 @@ bool checarUsuario(){
 }
 
 
+// fecha a porta apos 5 segundos ou apos pressionar o botao
 void fecharPorta1(){
   if(!estadoPorta1){  // caso a porta esteja fechada, sair da funcao para nao fecha-la novamente
     return;
@@ -143,6 +146,7 @@ void fecharPorta1(){
 }
 
 
+// fecha a porta apos 5 segundos ou apos pressionar o botao
 void fecharPorta2(){
   if(!estadoPorta2){
     return;
@@ -160,6 +164,7 @@ void fecharPorta2(){
 }
 
 
+// cadastra um novo usuario, tanto o nome quanto a senha devem ter de 1 a 30 caracteres
 void cadastrarNovoUsuario(){
   etapa++;
 
@@ -217,6 +222,7 @@ void cadastrarNovoUsuario(){
 }
 
 
+// lista todos os nomes dos usuarios que estao salvos na memoria flash
 void listarUsuarios(){ 
   userAddress = 8;
   Usuario user;
@@ -234,6 +240,7 @@ void listarUsuarios(){
 }
 
 
+// lista todos os eventos salvos na memoria flash do node somente se o usuario eh admin
 void listarEventos(){
   if(!checarUsuario()){
     return;
@@ -273,6 +280,7 @@ void listarEventos(){
 }
 
 
+// abre a porta 1
 void liberarPorta1(){
   if(!checarUsuario()){
     return;
@@ -306,6 +314,7 @@ void liberarPorta1(){
 }
 
 
+// abre a porta 2
 void liberarPorta2(){
   if(!checarUsuario()){
     return;
@@ -339,6 +348,7 @@ void liberarPorta2(){
 }
 
 
+// salva o usuario na memoria flash
 void salvarUsuario(Usuario usuario){
   usuariosCadastrados++;
 
@@ -358,6 +368,7 @@ void salvarUsuario(Usuario usuario){
 }
 
 
+// salva o evento na memoria flash
 void salvarEvento(Evento evento){
   eventosCadastrados++;
 
@@ -375,6 +386,7 @@ void salvarEvento(Evento evento){
 }
 
 
+// mostra todas as informacoes dos usuarios salvos na memoria flash
 void printUsuarios(){  
   Usuario user;
   userAddress = 8;
@@ -393,6 +405,7 @@ void printUsuarios(){
 }
 
 
+// mostra todas as informacoes dos eventos salvos na memoria flash
 void printEventos(){
   Evento event;
   eventAddress = int(EEPROM_SIZE/2) + 8;
@@ -409,6 +422,8 @@ void printEventos(){
 }
 
 
+// carrega a quantidade de usuarios cadastrados, o endereco do ultimo usuarios;
+// a quantidade de eventos salvos e o endereco do ultimo evento para a memoria RAM.
 void carregar(){
   EEPROM.get(0, usuariosCadastrados);
   EEPROM.get(4, usuarioAddress);
@@ -424,6 +439,7 @@ void carregar(){
 }
 
 
+// reseta a memoria flash do node
 void resetEEPROM(){
   for (int i = 0; i < EEPROM_SIZE; i++) {
     EEPROM.write(i, 0);

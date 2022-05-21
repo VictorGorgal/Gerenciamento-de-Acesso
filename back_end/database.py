@@ -4,12 +4,19 @@ from datetime import datetime
 
 
 class DB:
-    def __init__(self, file):
+    def __init__(self, file: str):
         self.database = file
 
         self.initDB()
 
-    def save_usuario(self, nome, senha, admin):
+    def save_usuario(self, nome: str, senha: str, admin: str):
+        """
+        salva o usuário no banco de dados na tabela 'usuarios'
+        :param nome: str: nome do usuário
+        :param senha: str: senha do usuário
+        :param admin: str: 0 ou 1
+        :return: None
+        """
         self.connection = sqlite3.connect(self.database)
         cursor = self.connection.cursor()
 
@@ -18,7 +25,13 @@ class DB:
         self.connection.commit()
         self.connection.close()
 
-    def save_evento(self, evento, usuario):
+    def save_evento(self, evento: str, usuario: str):
+        """
+        salva o evento no banco de dados na tabela 'eventos'
+        :param evento: str: evento que ocorreu (ex. Abriu a porta 2)
+        :param usuario: str: usuário responsável por gerar o evento
+        :return: None
+        """
         now = datetime.now()
         dia = f'{now.day}/{now.month}/{now.year}'
         horario = f'{now.hour}:{now.minute}:{now.second}'
@@ -31,7 +44,11 @@ class DB:
         self.connection.commit()
         self.connection.close()
 
-    def initDB(self):  # cria o database caso ainda nao exista
+    def initDB(self):
+        """
+        Cria o database caso ainda não exista
+        :return: None
+        """
         if exists(self.database):
             return
 
@@ -54,9 +71,7 @@ class DB:
 
 
 if __name__ == '__main__':
-    data = 'usuario;nathalia;amorzin;1'  # (tipo,nome,senha,admin)
-    data2 = 'evento;porta2 aberta;nathalia'  # (tipo, evento)
-
     g = DB('./database.db')
-    g.save_usuario(data)
-    g.save_evento(data2)
+
+    g.save_usuario(nome='usuario1', senha='Senha123@!', admin='1')
+    g.save_evento(evento='abriu a porta 1', usuario='usuario1')
