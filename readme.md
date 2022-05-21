@@ -29,7 +29,6 @@ As informações deverão ser enviadas para o back-end através de rotas especí
 - Botão esquerdo -> Botão da porta 1  
 - Botão direito -> Botão da porta 2  
 - Os botões apresentam resistor de pull-down de 10kΩ  
-- Os LEDs possuem resistor de 120Ω para não queimarem 
 
 Protótipo físico  
 ![image](https://user-images.githubusercontent.com/94933775/169666084-5563df25-7ac7-490e-ac21-1b9c995dd4b1.png)
