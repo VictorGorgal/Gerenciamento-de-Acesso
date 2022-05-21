@@ -33,7 +33,7 @@ As informações deverão ser enviadas para o back-end através de rotas especí
 Protótipo físico  
 ![image](https://user-images.githubusercontent.com/94933775/169666084-5563df25-7ac7-490e-ac21-1b9c995dd4b1.png)
 
-O circuito físico não apresenta resistores nos LEDs pois a voltagem de 3.3V da saída do nodeMCU não é o suficiente para queimá-los.
+O circuito físico não apresenta resistores nos LEDs pois a tensão de 3.3V da saída do nodeMCU não é o suficiente para queimá-los.
 
 # Funcionamento  
 A memória EEPROM do node foi dividida em 2 partes iguais de 512 bytes para armazenar os usuários cadastrados e os eventos:  
