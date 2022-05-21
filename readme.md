@@ -51,7 +51,7 @@ Visualizador de banco de dados:
 - Primeiro monte o circuito indicado na foto, o projeto foi desenvolvido para nodeMCU devido a falta de um arduino.  
 - Carregue o programa Arduino/Arduino.ino no nodeMCU, caso haja necessidade de limpar a memória EEPROM, descomente a linha "resetEEPROM();" no void setup(), carregue o codigo, comente novamente a linha "resetEEPROM();" e carregue novamente o código.
 - Feche a IDE Arduino e execute o main.py.
-O arquivo do banco de dados está salvo em back_end/database.db
+O arquivo do banco de dados está salvo em back_end/database.db (caso não exista esse arquivo, o programa irá criá-lo automaticamente na primeira execução)
 
 # Bibliotecas usadas:
 ```
