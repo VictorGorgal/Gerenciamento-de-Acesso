@@ -1,5 +1,4 @@
 from PyQt6.QtCore import QPropertyAnimation
-from PyQt6 import QtCore as qtc
 from PyQt6 import QtWidgets as qtw
 from UI.UI_base import Ui_MainWindow
 from back_end.arduino_serial import arduinoSerial
@@ -13,7 +12,7 @@ class MainWindow(qtw.QMainWindow, Ui_MainWindow):
 
         self.page_widgets.setCurrentWidget(self.serial_page)
         self.slide_menu.setMaximumWidth(0)
-        self.serial = arduinoSerial(self.serial_out, self.save)
+        self.serial = arduinoSerial(self.serial_out)
         self.readDB = readDB('./back_end/database.db')
         self.scrollArea.setVerticalScrollBar(self.verticalScrollBar)
         self.tabelaUsuarios.setVerticalScrollBar(self.scrollUsuarios)

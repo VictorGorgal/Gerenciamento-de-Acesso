@@ -349,6 +349,7 @@ void salvarUsuario(Usuario usuario){
   EEPROM.commit();
 
   Serial.print("banco-de-dados,");
+  Serial.print("usuario,");
   Serial.print(usuario.nome);
   Serial.print(",");
   Serial.print(usuario.senha);
@@ -365,6 +366,12 @@ void salvarEvento(Evento evento){
   eventoAddress += sizeof(evento);
   EEPROM.put(int(EEPROM_SIZE/2) + 4, eventoAddress);
   EEPROM.commit();
+
+  Serial.print("banco-de-dados,");
+  Serial.print("evento,abriu porta ");
+  Serial.print(evento.porta+1);
+  Serial.print(",");
+  Serial.println(evento.nomeUsuario);
 }
 
 

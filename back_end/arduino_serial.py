@@ -1,13 +1,14 @@
 import serial
 from threading import Thread
+from back_end.database import DB
 
 
 class arduinoSerial:
-    def __init__(self, mostrar, salvar):
+    def __init__(self, mostrar):
         # Mude a porta serial
         self.node = serial.Serial('COM3', 115200, timeout=5)
+        self.DB = DB('./back_end/database.db')
         self.mostrar = mostrar
-        self.salvar = salvar
         self.p1 = Thread(target=self.ler_serial)
         self.p1.start()
 
@@ -25,7 +26,7 @@ class arduinoSerial:
         entrada = entrada.decode('ascii').strip()
 
         if entrada.split(',')[0] == 'banco-de-dados':
-            self.salvar(f'salvando: {entrada.split(",")[1:]}')
+            self.salvar(entrada.split(",")[1:])
             return
 
         self.mostrar(entrada)
@@ -33,14 +34,10 @@ class arduinoSerial:
     def enviar_serial(self, texto):
         self.node.write(texto.encode())
 
+    def salvar(self, text):
+        tipo = text[0]
+        if tipo == 'usuario':
+            self.DB.save_usuario(text[1], text[2], text[3])
 
-if __name__ == '__main__':
-    def m(entrada):
-        print(entrada)
-
-
-    def s(entrada):
-        print(f'salvar: {entrada}')
-
-
-    ser = arduinoSerial(m, s)
+        if tipo == 'evento':
+            self.DB.save_evento(text[1], text[2])

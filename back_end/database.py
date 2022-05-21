@@ -3,15 +3,13 @@ from os.path import exists
 from datetime import datetime
 
 
-class gerenciamento:
+class DB:
     def __init__(self, file):
         self.database = file
 
         self.initDB()
 
-    def save_usuario(self, data):
-        _, nome, senha, admin = data.split(';')
-
+    def save_usuario(self, nome, senha, admin):
         self.connection = sqlite3.connect(self.database)
         cursor = self.connection.cursor()
 
@@ -20,9 +18,7 @@ class gerenciamento:
         self.connection.commit()
         self.connection.close()
 
-    def save_evento(self, data):
-        _, evento, usuario = data.split(';')
-
+    def save_evento(self, evento, usuario):
         now = datetime.now()
         dia = f'{now.day}/{now.month}/{now.year}'
         horario = f'{now.hour}:{now.minute}:{now.second}'
@@ -61,6 +57,6 @@ if __name__ == '__main__':
     data = 'usuario;nathalia;amorzin;1'  # (tipo,nome,senha,admin)
     data2 = 'evento;porta2 aberta;nathalia'  # (tipo, evento)
 
-    g = gerenciamento('./database.db')
+    g = DB('./database.db')
     g.save_usuario(data)
     g.save_evento(data2)
