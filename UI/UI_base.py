@@ -592,7 +592,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "Cadeira"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Monitor Serial"))
         self.serialInput.setPlaceholderText(_translate("MainWindow", "Digite:"))
         self.tabelaUsuarios.setSortingEnabled(False)
         item = self.tabelaUsuarios.verticalHeaderItem(0)
