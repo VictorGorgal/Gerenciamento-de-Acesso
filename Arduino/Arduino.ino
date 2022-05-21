@@ -52,7 +52,6 @@ Evento evento;
 
 void setup(){
   Serial.begin(115200);
-  Serial.println('-');
   EEPROM.begin(EEPROM_SIZE);
 
   pinMode(btn1, INPUT);
@@ -106,13 +105,14 @@ void loop(){
 
 
 void printMenu(){
-  Serial.println(F("-----------------------------------------------"));
-  Serial.println(F("Cadastro do usuario [1]"));
-  Serial.println(F("Listagem dos nomes dos usuarios cadastrados [2]"));
-  Serial.println(F("Listagem dos eventos [3]"));
-  Serial.println(F("Liberacao da porta 1 [4]"));
-  Serial.println(F("Liberacao da porta 2 [5]"));
-  Serial.println(F("-----------------------------------------------"));
+  delay(1000);
+  Serial.println(F("-----------------------------------------------\n"
+                   "Liberacao da porta 2 [5]\n"
+                   "Liberacao da porta 1 [4]\n"
+                   "Listagem dos eventos [3]\n"
+                   "Listagem dos nomes dos usuarios cadastrados [2]\n"
+                   "Cadastro do usuario [1]\n"                   
+                   "-----------------------------------------------"));
 }
 
 
@@ -217,22 +217,19 @@ void cadastrarNovoUsuario(){
 }
 
 
-void listarUsuarios(){
-  Serial.println("###nome dos usuarios###");
-  
+void listarUsuarios(){ 
   userAddress = 8;
-  Serial.println("lendo usuarios...");
   Usuario user;
   for(int i = 0; i < usuariosCadastrados; i++){
     EEPROM.get(userAddress, user);
 
-    Serial.println("-------------");
     Serial.print("nome: ");
     Serial.println(user.nome);
   
     userAddress += sizeof(user);
   }
-
+  
+  Serial.println("###nome dos usuarios###");
   printMenu();
 }
 
@@ -264,10 +261,11 @@ void listarEventos(){
         break;
       }
 
-      Serial.println(F("### dados do usuario ###"));
+      Serial.println("-----------------------------------------------");
       printUsuarios();
-      Serial.println(F("### indentificacao da porta que foi aberta ###"));
+      Serial.println(F("### dados do usuario ###"));
       printEventos();
+      Serial.println(F("### indentificacao da porta que foi aberta ###"));
       etapa = 0;
       printMenu();
       break;
@@ -371,18 +369,16 @@ void salvarEvento(Evento evento){
 
 
 void printUsuarios(){  
-  Serial.println("lendo usuarios...");
   Usuario user;
   userAddress = 8;
   for(int i = 0; i < usuariosCadastrados; i++){
     EEPROM.get(userAddress, user);
 
-    Serial.println("-------------");
     Serial.print("nome: ");
-    Serial.println(user.nome);
-    Serial.print("senha: ");
-    Serial.println(user.senha);
-    Serial.print("Admin: ");
+    Serial.print(user.nome);
+    Serial.print(", senha: ");
+    Serial.print(user.senha);
+    Serial.print(", Admin: ");
     Serial.println(user.admin);
   
     userAddress += sizeof(user);
@@ -391,17 +387,15 @@ void printUsuarios(){
 
 
 void printEventos(){
-  Serial.println("lendo eventos...");
   Evento event;
   eventAddress = int(EEPROM_SIZE/2) + 8;
   for(int i = 0; i < eventosCadastrados; i++){
     EEPROM.get(eventAddress, event);
 
-    Serial.println("-------------");
     Serial.print("porta: ");
-    Serial.println(event.porta);
-    Serial.print("usuario: ");
-    Serial.println(event.nomeUsuario);
+    Serial.println(event.porta + 1);
+    Serial.print(" foi aberta por: ");
+    Serial.print(event.nomeUsuario);
   
     eventAddress += sizeof(event);
   }
