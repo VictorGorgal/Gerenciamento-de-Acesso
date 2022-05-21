@@ -48,7 +48,6 @@ class MainWindow(qtw.QMainWindow, Ui_MainWindow):
     def load_tables(self):
         usuarios = self.readDB.get_usuarios()
         eventos = self.readDB.get_eventos()
-        print(len(usuarios))
         self.tabelaUsuarios.setRowCount(len(usuarios))
         self.tabelaEventos.setRowCount(len(eventos))
 
@@ -63,15 +62,8 @@ class MainWindow(qtw.QMainWindow, Ui_MainWindow):
             self.tabelaEventos.setItem(i, 2, qtw.QTableWidgetItem(evento[2]))
             self.tabelaEventos.setItem(i, 3, qtw.QTableWidgetItem(evento[3]))
 
-        # self.tabelaUsuarios.setRowCount(30)
-        # self.tabelaEventos.setRowCount(30)
-        # for i in range(30):
-        #     self.tabelaUsuarios.setItem(i, 0, qtw.QTableWidgetItem(f'nome{i}'))
-        #     self.tabelaUsuarios.setItem(i, 1, qtw.QTableWidgetItem(f'senha{i}'))
-        #     self.tabelaUsuarios.setItem(i, 2, qtw.QTableWidgetItem(f'admin{i}'))
-        #
-        #     self.tabelaEventos.setItem(i, 0, qtw.QTableWidgetItem(f'evento{i}'))
-        #     self.tabelaEventos.setItem(i, 1, qtw.QTableWidgetItem(f'usuario{i}'))
+        self.tabelaUsuarios.resizeColumnsToContents()
+        self.tabelaEventos.resizeColumnsToContents()
 
     def highlight_button(self):
         self.btn_serial.setAutoFillBackground(False)
