@@ -47,17 +47,17 @@ Foi desenvolvido um Monitor Serial para este projeto integrado com o banco de da
 Visualizador de banco de dados:  
 ![image](https://user-images.githubusercontent.com/94933775/169666945-3b503ad2-288a-47b4-b6ec-d7571c30c4f2.png)
 
-# Rodando o programa
-- Primeiro monte o circuito indicado na foto, o projeto foi desenvolvido para nodeMCU devido a falta de um arduino.  
-- Carregue o programa Arduino/Arduino.ino no nodeMCU, caso haja necessidade de limpar a memória EEPROM, descomente a linha "resetEEPROM();" no void setup(), carregue o codigo, comente novamente a linha "resetEEPROM();" e carregue novamente o código.
-- Feche a IDE Arduino e execute o main.py.
-O arquivo do banco de dados está salvo em back_end/database.db (caso não exista esse arquivo, o programa irá criá-lo automaticamente na primeira execução)
-
 # Bibliotecas usadas:
 ```
 pip install pyserial   # comunicação serial
 pip install pyqt6      # interface gráfica
 ```
+
+# Rodando o programa
+- Primeiro monte o circuito indicado na foto, o projeto foi desenvolvido para nodeMCU devido a falta de um arduino.  
+- Carregue o programa Arduino/Arduino.ino no nodeMCU, caso haja necessidade de limpar a memória EEPROM, descomente a linha "resetEEPROM();" no void setup(), carregue o codigo, comente novamente a linha "resetEEPROM();" e carregue novamente o código.
+- Feche a IDE Arduino e execute o main.py.
+O arquivo do banco de dados está salvo em back_end/database.db (caso não exista esse arquivo, o programa irá criá-lo automaticamente na primeira execução)
 
 # Possíveis problemas:
 ### Access is denied
@@ -71,3 +71,8 @@ Certifique-se que a IDE do arduino não está aberta.
 ### File not found error
 ![image](https://user-images.githubusercontent.com/94933775/169667306-ed2add32-6b10-4b2e-b183-dfd1fd18ba5c.png)  
 No arquivo back_end/arduino_serial.py troque a porta serial para a que o computador reconheceu o nodeMCU dentro do def __init __
+
+### Saída serial vazia  
+![image](https://user-images.githubusercontent.com/94933775/169667628-5c1cc48b-ca19-4a69-8a95-56694f1e0d55.png)  
+Resete o nodeMCU apertando o botão reset dele.
+
