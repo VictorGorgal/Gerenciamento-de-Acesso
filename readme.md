@@ -44,7 +44,7 @@ Foi desenvolvido um Monitor Serial para este projeto integrado com o banco de da
 ### Diferente do Monitor Serial da IDE do Arduino, as novas mensagens aparecem no topo.
 
 Visualizador de banco de dados:  
-![image](https://user-images.githubusercontent.com/94933775/169666945-3b503ad2-288a-47b4-b6ec-d7571c30c4f2.png)
+![image](https://user-images.githubusercontent.com/94933775/169669529-dbab6e52-58b9-4ded-a48c-645241eb7fe4.png)
 
 # Bibliotecas usadas:
 ```
