@@ -10,6 +10,7 @@ class arduinoSerial:
         self.DB = DB('./back_end/database.db')
         self.mostrar = mostrar
         self.p1 = Thread(target=self.ler_serial)
+        self.p1.daemon = True
         self.p1.start()
 
     def ler_serial(self):
