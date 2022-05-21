@@ -393,9 +393,9 @@ void printEventos(){
     EEPROM.get(eventAddress, event);
 
     Serial.print("porta: ");
-    Serial.println(event.porta + 1);
+    Serial.print(event.porta + 1);
     Serial.print(" foi aberta por: ");
-    Serial.print(event.nomeUsuario);
+    Serial.println(event.nomeUsuario);
   
     eventAddress += sizeof(event);
   }

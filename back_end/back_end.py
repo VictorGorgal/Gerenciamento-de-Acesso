@@ -21,16 +21,16 @@ class gerenciamento:
         self.connection.close()
 
     def save_evento(self, data):
-        _, evento = data.split(';')
+        _, evento, usuario = data.split(';')
 
         now = datetime.now()
         dia = f'{now.day}/{now.month}/{now.year}'
-        horario = f'{now.hour}/{now.minute}/{now.second}'
+        horario = f'{now.hour}:{now.minute}:{now.second}'
 
         self.connection = sqlite3.connect(self.database)
         cursor = self.connection.cursor()
 
-        cursor.execute('insert into eventos (data, horario, evento) values (?, ?, ?)', [dia, horario, evento])
+        cursor.execute('insert into eventos values (?, ?, ?, ?)', [dia, horario, evento, usuario])
 
         self.connection.commit()
         self.connection.close()
@@ -51,14 +51,15 @@ class gerenciamento:
         cursor.execute("""create table eventos (
                         data text,
                         horario text,
-                        evento text)""")
+                        evento text,
+                        usuario text)""")
 
         self.connection.close()
 
 
 if __name__ == '__main__':
-    data = 'usuario;victor arruda;Senha123!@;1'  # (tipo,nome,senha,admin)
-    data2 = 'evento;porta1 aberta'  # (tipo, evento)
+    data = 'usuario;nathalia;amorzin;1'  # (tipo,nome,senha,admin)
+    data2 = 'evento;porta2 aberta;nathalia'  # (tipo, evento)
 
     g = gerenciamento('./database.db')
     g.save_usuario(data)

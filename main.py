@@ -3,6 +3,7 @@ from PyQt6 import QtCore as qtc
 from PyQt6 import QtWidgets as qtw
 from UI.UI_base import Ui_MainWindow
 from back_end.arduino_serial import arduinoSerial
+from back_end.read_database import readDB
 
 
 class MainWindow(qtw.QMainWindow, Ui_MainWindow):
@@ -12,8 +13,11 @@ class MainWindow(qtw.QMainWindow, Ui_MainWindow):
 
         self.page_widgets.setCurrentWidget(self.serial_page)
         self.slide_menu.setMaximumWidth(0)
-        self.serial = start_serial(self.serial_out, self.save)
+        self.serial = arduinoSerial(self.serial_out, self.save)
+        self.readDB = readDB('./back_end/database.db')
         self.scrollArea.setVerticalScrollBar(self.verticalScrollBar)
+        self.tabelaUsuarios.setVerticalScrollBar(self.scrollUsuarios)
+        self.tabelaEventos.setVerticalScrollBar(self.scrollEventos)
 
         self.btn_menu.clicked.connect(lambda: self.toggleMenu(48))  # slide menu
         self.btn_serial.clicked.connect(self.go_to_serial)
@@ -28,6 +32,8 @@ class MainWindow(qtw.QMainWindow, Ui_MainWindow):
         self.page_widgets.setCurrentWidget(self.database_page)
         self.highlight_button()
 
+        self.load_tables()
+
     def get_text(self):
         self.serial.enviar_serial(self.serialInput.text())
         self.serialInput.setText('')
@@ -38,6 +44,34 @@ class MainWindow(qtw.QMainWindow, Ui_MainWindow):
 
     def save(self, texto):
         print(f'Saving: {texto}')
+
+    def load_tables(self):
+        usuarios = self.readDB.get_usuarios()
+        eventos = self.readDB.get_eventos()
+        print(len(usuarios))
+        self.tabelaUsuarios.setRowCount(len(usuarios))
+        self.tabelaEventos.setRowCount(len(eventos))
+
+        for i, usuario in enumerate(usuarios):
+            self.tabelaUsuarios.setItem(i, 0, qtw.QTableWidgetItem(usuario[0]))
+            self.tabelaUsuarios.setItem(i, 1, qtw.QTableWidgetItem(usuario[1]))
+            self.tabelaUsuarios.setItem(i, 2, qtw.QTableWidgetItem(usuario[2]))
+
+        for i, evento in enumerate(eventos):
+            self.tabelaEventos.setItem(i, 0, qtw.QTableWidgetItem(evento[0]))
+            self.tabelaEventos.setItem(i, 1, qtw.QTableWidgetItem(evento[1]))
+            self.tabelaEventos.setItem(i, 2, qtw.QTableWidgetItem(evento[2]))
+            self.tabelaEventos.setItem(i, 3, qtw.QTableWidgetItem(evento[3]))
+
+        # self.tabelaUsuarios.setRowCount(30)
+        # self.tabelaEventos.setRowCount(30)
+        # for i in range(30):
+        #     self.tabelaUsuarios.setItem(i, 0, qtw.QTableWidgetItem(f'nome{i}'))
+        #     self.tabelaUsuarios.setItem(i, 1, qtw.QTableWidgetItem(f'senha{i}'))
+        #     self.tabelaUsuarios.setItem(i, 2, qtw.QTableWidgetItem(f'admin{i}'))
+        #
+        #     self.tabelaEventos.setItem(i, 0, qtw.QTableWidgetItem(f'evento{i}'))
+        #     self.tabelaEventos.setItem(i, 1, qtw.QTableWidgetItem(f'usuario{i}'))
 
     def highlight_button(self):
         self.btn_serial.setAutoFillBackground(False)

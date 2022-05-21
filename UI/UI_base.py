@@ -190,6 +190,8 @@ class Ui_MainWindow(object):
         self.frame_2.setLineWidth(0)
         self.frame_2.setObjectName("frame_2")
         self.verticalLayout_6 = QtWidgets.QVBoxLayout(self.frame_2)
+        self.verticalLayout_6.setContentsMargins(20, 20, 20, 20)
+        self.verticalLayout_6.setSpacing(10)
         self.verticalLayout_6.setObjectName("verticalLayout_6")
         self.serialInput = QtWidgets.QLineEdit(self.frame_2)
         self.serialInput.setMinimumSize(QtCore.QSize(0, 40))
@@ -231,7 +233,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 1164, 599))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 1146, 578))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout_7 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_7.setContentsMargins(0, 0, 0, 0)
@@ -260,31 +262,31 @@ class Ui_MainWindow(object):
         self.verticalScrollBar = QtWidgets.QScrollBar(self.frame_4)
         self.verticalScrollBar.setMaximumSize(QtCore.QSize(20, 16777215))
         self.verticalScrollBar.setStyleSheet("QScrollBar::handle:vertical {\n"
-"    background-color: rgb(32, 32, 32);\n"
+"    background-color: rgb(30, 30, 30);\n"
 "    border-radius: 4px;\n"
 "}\n"
 "QScrollBar::handle:vertical:hover{\n"
-"    background-color: rgb(204, 120, 50);\n"
+"    background-color: rgb(97, 68, 223);\n"
 "    border-radius: 4px;\n"
 "}\n"
 "QScrollBar::handle:vertical:pressed {\n"
-"    background-color: rgb(237, 131, 43);\n"
+"    background-color: rgb(72, 42, 204);\n"
 "    border-radius: 4px;\n"
 "}\n"
 "\n"
 "QScrollBar::add-line:vertical{\n"
-"    background: rgb(38, 38, 38);\n"
+"    background: rgb(40, 40, 40);\n"
 "    border-radius: 4px;\n"
 "}\n"
 "\n"
 "QScrollBar::sub-line:vertical{\n"
-"    background: rgb(38, 38, 38);\n"
+"    background: rgb(40, 40, 40);\n"
 "    border-radius: 4px;\n"
 "}\n"
 "\n"
 " QScrollBar:vertical {\n"
-"    border: 1px solid rgb(38, 38, 38);\n"
-"    background-color: rgb(38, 38, 38);\n"
+"    border: 1px solid rgb(40, 40, 40);\n"
+"    background-color: rgb(40, 40, 40);\n"
 "    border-radius: 4px;\n"
 " }\n"
 "\n"
@@ -305,7 +307,279 @@ class Ui_MainWindow(object):
         self.database_page = QtWidgets.QWidget()
         self.database_page.setObjectName("database_page")
         self.horizontalLayout_7 = QtWidgets.QHBoxLayout(self.database_page)
+        self.horizontalLayout_7.setSpacing(0)
         self.horizontalLayout_7.setObjectName("horizontalLayout_7")
+        self.frame_5 = QtWidgets.QFrame(self.database_page)
+        self.frame_5.setStyleSheet("background-color: rgb(48, 48, 48);\n"
+"border-radius:20px")
+        self.frame_5.setFrameShape(QtWidgets.QFrame.Shape.NoFrame)
+        self.frame_5.setFrameShadow(QtWidgets.QFrame.Shadow.Plain)
+        self.frame_5.setLineWidth(0)
+        self.frame_5.setObjectName("frame_5")
+        self.horizontalLayout_5 = QtWidgets.QHBoxLayout(self.frame_5)
+        self.horizontalLayout_5.setContentsMargins(10, 10, 10, 10)
+        self.horizontalLayout_5.setSpacing(0)
+        self.horizontalLayout_5.setObjectName("horizontalLayout_5")
+        self.frame_8 = QtWidgets.QFrame(self.frame_5)
+        self.frame_8.setMinimumSize(QtCore.QSize(100, 0))
+        self.frame_8.setFrameShape(QtWidgets.QFrame.Shape.NoFrame)
+        self.frame_8.setFrameShadow(QtWidgets.QFrame.Shadow.Plain)
+        self.frame_8.setLineWidth(0)
+        self.frame_8.setObjectName("frame_8")
+        self.horizontalLayout_9 = QtWidgets.QHBoxLayout(self.frame_8)
+        self.horizontalLayout_9.setContentsMargins(5, 5, 5, 5)
+        self.horizontalLayout_9.setSpacing(0)
+        self.horizontalLayout_9.setObjectName("horizontalLayout_9")
+        self.tabelaUsuarios = QtWidgets.QTableWidget(self.frame_8)
+        self.tabelaUsuarios.setMinimumSize(QtCore.QSize(550, 0))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.tabelaUsuarios.setFont(font)
+        self.tabelaUsuarios.setStyleSheet("QTableView::item:selected {\n"
+"color: rgb(255, 255, 255);\n"
+"background:rgb(54, 54, 54); \n"
+"}\n"
+"                           \n"
+"QTableCornerButton::section { \n"
+"color: rgb(255, 255, 255);\n"
+"background-color: rgb(50, 50, 50);\n"
+"border: 1px outset rgb(18, 18, 18);\n"
+"}\n"
+"                           \n"
+"QHeaderView::section { \n"
+"color: rgb(255, 255, 255);\n"
+"background-color: rgb(50, 50, 50);\n"
+"border: 1px outset rgb(18, 18, 18);\n"
+"}\n"
+"\n"
+"QTableView{\n"
+"    color: rgb(255, 255, 255);\n"
+"    gridline-color: rgb(30, 30, 30);\n"
+"}\n"
+"\n"
+"QTableView::item{\n"
+"    background: {color};\n"
+"}")
+        self.tabelaUsuarios.setFrameShape(QtWidgets.QFrame.Shape.NoFrame)
+        self.tabelaUsuarios.setFrameShadow(QtWidgets.QFrame.Shadow.Plain)
+        self.tabelaUsuarios.setLineWidth(0)
+        self.tabelaUsuarios.setEditTriggers(QtWidgets.QAbstractItemView.EditTrigger.NoEditTriggers)
+        self.tabelaUsuarios.setGridStyle(QtCore.Qt.PenStyle.SolidLine)
+        self.tabelaUsuarios.setCornerButtonEnabled(False)
+        self.tabelaUsuarios.setObjectName("tabelaUsuarios")
+        self.tabelaUsuarios.setColumnCount(3)
+        self.tabelaUsuarios.setRowCount(1)
+        item = QtWidgets.QTableWidgetItem()
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        item.setFont(font)
+        self.tabelaUsuarios.setVerticalHeaderItem(0, item)
+        item = QtWidgets.QTableWidgetItem()
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        item.setFont(font)
+        self.tabelaUsuarios.setHorizontalHeaderItem(0, item)
+        item = QtWidgets.QTableWidgetItem()
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        item.setFont(font)
+        self.tabelaUsuarios.setHorizontalHeaderItem(1, item)
+        item = QtWidgets.QTableWidgetItem()
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        item.setFont(font)
+        self.tabelaUsuarios.setHorizontalHeaderItem(2, item)
+        item = QtWidgets.QTableWidgetItem()
+        item.setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        item.setFont(font)
+        self.tabelaUsuarios.setItem(0, 0, item)
+        item = QtWidgets.QTableWidgetItem()
+        item.setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        item.setFont(font)
+        self.tabelaUsuarios.setItem(0, 1, item)
+        item = QtWidgets.QTableWidgetItem()
+        item.setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        item.setFont(font)
+        self.tabelaUsuarios.setItem(0, 2, item)
+        self.tabelaUsuarios.horizontalHeader().setVisible(True)
+        self.tabelaUsuarios.horizontalHeader().setCascadingSectionResizes(False)
+        self.tabelaUsuarios.horizontalHeader().setHighlightSections(True)
+        self.tabelaUsuarios.horizontalHeader().setStretchLastSection(False)
+        self.tabelaUsuarios.verticalHeader().setVisible(True)
+        self.tabelaUsuarios.verticalHeader().setCascadingSectionResizes(False)
+        self.horizontalLayout_9.addWidget(self.tabelaUsuarios)
+        self.scrollUsuarios = QtWidgets.QScrollBar(self.frame_8)
+        self.scrollUsuarios.setMinimumSize(QtCore.QSize(20, 0))
+        self.scrollUsuarios.setMaximumSize(QtCore.QSize(20, 16777215))
+        self.scrollUsuarios.setStyleSheet("QScrollBar::handle:vertical {\n"
+"    background-color: rgb(30, 30, 30);\n"
+"    border-radius: 4px;\n"
+"}\n"
+"QScrollBar::handle:vertical:hover{\n"
+"    background-color: rgb(97, 68, 223);\n"
+"    border-radius: 4px;\n"
+"}\n"
+"QScrollBar::handle:vertical:pressed {\n"
+"    background-color: rgb(72, 42, 204);\n"
+"    border-radius: 4px;\n"
+"}\n"
+"\n"
+"QScrollBar::add-line:vertical{\n"
+"    background: rgb(40, 40, 40);\n"
+"    border-radius: 4px;\n"
+"}\n"
+"\n"
+"QScrollBar::sub-line:vertical{\n"
+"    background: rgb(40, 40, 40);\n"
+"    border-radius: 4px;\n"
+"}\n"
+"\n"
+" QScrollBar:vertical {\n"
+"    border: 1px solid rgb(40, 40, 40);\n"
+"    background-color: rgb(40, 40, 40);\n"
+"    border-radius: 4px;\n"
+" }\n"
+"\n"
+"QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical {\n"
+"    background: none;\n"
+"     border-radius: 4px;\n"
+"}\n"
+"QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {\n"
+"    background: none;\n"
+"     border-radius: 4px;\n"
+"}")
+        self.scrollUsuarios.setOrientation(QtCore.Qt.Orientation.Vertical)
+        self.scrollUsuarios.setObjectName("scrollUsuarios")
+        self.horizontalLayout_9.addWidget(self.scrollUsuarios)
+        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
+        self.horizontalLayout_9.addItem(spacerItem1)
+        self.horizontalLayout_5.addWidget(self.frame_8)
+        self.frame_7 = QtWidgets.QFrame(self.frame_5)
+        self.frame_7.setMinimumSize(QtCore.QSize(100, 0))
+        self.frame_7.setFrameShape(QtWidgets.QFrame.Shape.NoFrame)
+        self.frame_7.setFrameShadow(QtWidgets.QFrame.Shadow.Plain)
+        self.frame_7.setLineWidth(0)
+        self.frame_7.setObjectName("frame_7")
+        self.horizontalLayout_8 = QtWidgets.QHBoxLayout(self.frame_7)
+        self.horizontalLayout_8.setContentsMargins(5, 5, 5, 5)
+        self.horizontalLayout_8.setSpacing(0)
+        self.horizontalLayout_8.setObjectName("horizontalLayout_8")
+        self.tabelaEventos = QtWidgets.QTableWidget(self.frame_7)
+        self.tabelaEventos.setMinimumSize(QtCore.QSize(550, 0))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.tabelaEventos.setFont(font)
+        self.tabelaEventos.setStyleSheet("QTableView::item:selected {\n"
+"color: rgb(255, 255, 255);\n"
+"background:rgb(54, 54, 54); \n"
+"}\n"
+"                           \n"
+"QTableCornerButton::section { \n"
+"color: rgb(255, 255, 255);\n"
+"background-color: rgb(50, 50, 50);\n"
+"border: 1px outset rgb(18, 18, 18);\n"
+"}\n"
+"                           \n"
+"QHeaderView::section { \n"
+"color: rgb(255, 255, 255);\n"
+"background-color: rgb(50, 50, 50);\n"
+"border: 1px outset rgb(18, 18, 18);\n"
+"}\n"
+"\n"
+"QTableView{\n"
+"    color: rgb(255, 255, 255);\n"
+"    gridline-color: rgb(30, 30, 30);\n"
+"}\n"
+"\n"
+"QTableView::item{\n"
+"    background: {color};\n"
+"}")
+        self.tabelaEventos.setFrameShape(QtWidgets.QFrame.Shape.NoFrame)
+        self.tabelaEventos.setFrameShadow(QtWidgets.QFrame.Shadow.Plain)
+        self.tabelaEventos.setLineWidth(0)
+        self.tabelaEventos.setEditTriggers(QtWidgets.QAbstractItemView.EditTrigger.NoEditTriggers)
+        self.tabelaEventos.setObjectName("tabelaEventos")
+        self.tabelaEventos.setColumnCount(4)
+        self.tabelaEventos.setRowCount(1)
+        item = QtWidgets.QTableWidgetItem()
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        item.setFont(font)
+        self.tabelaEventos.setVerticalHeaderItem(0, item)
+        item = QtWidgets.QTableWidgetItem()
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        item.setFont(font)
+        self.tabelaEventos.setHorizontalHeaderItem(0, item)
+        item = QtWidgets.QTableWidgetItem()
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        item.setFont(font)
+        self.tabelaEventos.setHorizontalHeaderItem(1, item)
+        item = QtWidgets.QTableWidgetItem()
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        item.setFont(font)
+        self.tabelaEventos.setHorizontalHeaderItem(2, item)
+        item = QtWidgets.QTableWidgetItem()
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        item.setFont(font)
+        self.tabelaEventos.setHorizontalHeaderItem(3, item)
+        self.horizontalLayout_8.addWidget(self.tabelaEventos)
+        self.scrollEventos = QtWidgets.QScrollBar(self.frame_7)
+        self.scrollEventos.setMinimumSize(QtCore.QSize(20, 0))
+        self.scrollEventos.setMaximumSize(QtCore.QSize(20, 16777215))
+        self.scrollEventos.setStyleSheet("QScrollBar::handle:vertical {\n"
+"    background-color: rgb(30, 30, 30);\n"
+"    border-radius: 4px;\n"
+"}\n"
+"QScrollBar::handle:vertical:hover{\n"
+"    background-color: rgb(97, 68, 223);\n"
+"    border-radius: 4px;\n"
+"}\n"
+"QScrollBar::handle:vertical:pressed {\n"
+"    background-color: rgb(72, 42, 204);\n"
+"    border-radius: 4px;\n"
+"}\n"
+"\n"
+"QScrollBar::add-line:vertical{\n"
+"    background: rgb(40, 40, 40);\n"
+"    border-radius: 4px;\n"
+"}\n"
+"\n"
+"QScrollBar::sub-line:vertical{\n"
+"    background: rgb(40, 40, 40);\n"
+"    border-radius: 4px;\n"
+"}\n"
+"\n"
+" QScrollBar:vertical {\n"
+"    border: 1px solid rgb(40, 40, 40);\n"
+"    background-color: rgb(40, 40, 40);\n"
+"    border-radius: 4px;\n"
+" }\n"
+"\n"
+"QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical {\n"
+"    background: none;\n"
+"     border-radius: 4px;\n"
+"}\n"
+"QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {\n"
+"    background: none;\n"
+"     border-radius: 4px;\n"
+"}")
+        self.scrollEventos.setOrientation(QtCore.Qt.Orientation.Vertical)
+        self.scrollEventos.setObjectName("scrollEventos")
+        self.horizontalLayout_8.addWidget(self.scrollEventos)
+        spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
+        self.horizontalLayout_8.addItem(spacerItem2)
+        self.horizontalLayout_5.addWidget(self.frame_7)
+        self.horizontalLayout_7.addWidget(self.frame_5)
         self.page_widgets.addWidget(self.database_page)
         self.verticalLayout_3.addWidget(self.page_widgets)
         self.horizontalLayout_2.addWidget(self.frame_3)
@@ -313,13 +587,41 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.page_widgets.setCurrentIndex(0)
+        self.page_widgets.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Cadeira"))
         self.serialInput.setPlaceholderText(_translate("MainWindow", "Digite:"))
+        self.tabelaUsuarios.setSortingEnabled(False)
+        item = self.tabelaUsuarios.verticalHeaderItem(0)
+        item.setText(_translate("MainWindow", "1"))
+        item = self.tabelaUsuarios.horizontalHeaderItem(0)
+        item.setText(_translate("MainWindow", "Nome"))
+        item = self.tabelaUsuarios.horizontalHeaderItem(1)
+        item.setText(_translate("MainWindow", "Senha"))
+        item = self.tabelaUsuarios.horizontalHeaderItem(2)
+        item.setText(_translate("MainWindow", "Admin"))
+        __sortingEnabled = self.tabelaUsuarios.isSortingEnabled()
+        self.tabelaUsuarios.setSortingEnabled(False)
+        item = self.tabelaUsuarios.item(0, 0)
+        item.setText(_translate("MainWindow", "Victor"))
+        item = self.tabelaUsuarios.item(0, 1)
+        item.setText(_translate("MainWindow", "Arruda"))
+        item = self.tabelaUsuarios.item(0, 2)
+        item.setText(_translate("MainWindow", "1"))
+        self.tabelaUsuarios.setSortingEnabled(__sortingEnabled)
+        item = self.tabelaEventos.verticalHeaderItem(0)
+        item.setText(_translate("MainWindow", "1"))
+        item = self.tabelaEventos.horizontalHeaderItem(0)
+        item.setText(_translate("MainWindow", "Data"))
+        item = self.tabelaEventos.horizontalHeaderItem(1)
+        item.setText(_translate("MainWindow", "Horário"))
+        item = self.tabelaEventos.horizontalHeaderItem(2)
+        item.setText(_translate("MainWindow", "Evento"))
+        item = self.tabelaEventos.horizontalHeaderItem(3)
+        item.setText(_translate("MainWindow", "Usuário"))
 
 
 if __name__ == "__main__":
