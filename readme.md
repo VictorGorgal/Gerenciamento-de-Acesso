@@ -75,3 +75,5 @@ No arquivo back_end/arduino_serial.py troque a porta serial para a que o computa
 ![image](https://user-images.githubusercontent.com/94933775/169667628-5c1cc48b-ca19-4a69-8a95-56694f1e0d55.png)  
 Resete o nodeMCU apertando o botão reset dele.
 
+# Funcionamento na prática
+Demonstração: https://youtu.be/zkL8N9sPvYo
